@@ -1,0 +1,36 @@
+enable
+configure terminal
+hostname RT-11
+enable secret SenhadaEnable
+username Iansimim privilege 15 secret Aa12345678$
+username Melissareis privilege 15 secret Bb12345678$
+username Renanaraujo privilege 15 secret Cc12345678$
+username Victorsilva privilege 15 secret Dd12345678$
+ip domain-name grupo8.local
+crypto key generate rsa general-keys modulus 1024
+security passwords min-length 8
+login block-for 240 attempts 7 within 10
+line vty 0 15
+login local
+transport input ssh
+exec-timeout 5
+exit
+line console 0
+password SenhadaConsole
+login
+exit
+service password-encryption
+interface g0/0.28
+encapsulation dot1Q 28
+ip address 192.168.28.1 255.255.255.0
+ip helper-address 192.168.247.5
+no shut
+interface g0/0.128
+encapsulation dot1Q 128
+ip address 192.168.247.1 255.255.255.0
+ip helper-address 192.168.247.5
+no shut
+interface g0/0
+no shut
+do wr
+end
