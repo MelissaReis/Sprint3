@@ -1,0 +1,45 @@
+enable
+configure terminal
+hostname SW-GRPO8
+enable secret SenhadaEnable
+username Iansimim privilege 15 secret 12345678
+username Melissareis privilege 15 secret 12345678
+username Renanaraujo privilege 15 secret 12345678
+username Victorsilva privilege 15 secret 12345678
+ip domain-name grupo8.local
+crypto key generate rsa general-keys modulus 1024
+line vty 0 15
+login local
+transport input ssh
+exec-timeout 5
+exit
+line console 0
+password SenhadaConsole
+login
+exit
+service password-encryption
+vlan 28
+name vlan28
+vlan 128
+name vlan128
+exit
+interface f0/1 
+switchport mode access
+switchport access vlan 28
+no shut
+exit
+interface f0/2
+switchport mode access 
+switchport access vlan 28
+no shut
+exit
+interface vlan 128
+ip address 192.168.254.253 255.255.255.0
+no shut
+exit
+interface f0/20
+switchport mode trunk
+switchport trunk allowed vlan 28,128,99
+no shut
+ip default-gateway 192.168.247.1
+do wr
